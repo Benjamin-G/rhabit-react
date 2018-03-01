@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 
 import UsersList from './UsersList'
+import AddUser from './AddUser'
 // import { Link } from 'react-router-dom'
 // <Link className="header__title" to="/dashboard">
 // </Link>
@@ -22,6 +23,8 @@ export default class OrganizationalRelationshipApp extends React.Component {
       <div>
         Users
         <UsersList users={this.state.users}/>
+        Add User
+        <AddUser />
       </div>
     )
   }
