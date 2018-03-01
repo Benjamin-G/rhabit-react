@@ -2369,6 +2369,12 @@ ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
 
+immutability-helper@^2.6.5:
+  version "2.6.5"
+  resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-2.6.5.tgz#94a10f18f1196244b2dea92d46522d2b4dce7b73"
+  dependencies:
+    invariant "^2.2.0"
+
 import-local@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/import-local/-/import-local-0.1.1.tgz#b1179572aacdc11c6a91009fb430dbcab5f668a8"
@@ -2422,6 +2428,12 @@ internal-ip@1.2.0:
 interpret@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.4.tgz#820cdd588b868ffb191a809506d6c9c8f212b1b0"
+
+invariant@^2.2.0:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.3.tgz#1a827dfde7dcbd7c323f0ca826be8fa7c5e9d688"
+  dependencies:
+    loose-envify "^1.0.0"
 
 invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
