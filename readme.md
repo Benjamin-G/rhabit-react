@@ -7,7 +7,7 @@ https://github.com/Benjamin-G/rhabit-api
 
 Please have the API running before you boot up this App; both should be running on your local machine to demo this.
 
-##Installation
+##Installation and Running
 
 Either yarn or npm should work, I recommend yarn:
 
