@@ -15,6 +15,10 @@ export default class OrganizationalRelationshipApp extends React.Component {
   }
 
   componentDidMount() {
+    this.updateStateFromApi()
+  }
+
+  updateStateFromApi() {
     axios.get('http://localhost:3000/api/v1/users')
     .then(res => {
       console.log(res.data)
@@ -43,12 +47,7 @@ export default class OrganizationalRelationshipApp extends React.Component {
   deleteUser = (id) => {
     axios.delete(`http://localhost:3000/api/v1/users/${id}`)
     .then(res => {
-      
-      const users = this.state.users.filter((user) => user.id !== id )
-
-      console.log(users)
-
-      this.setState({ users })
+      this.updateStateFromApi()
     })
     .catch(err => console.log(err))
   }
