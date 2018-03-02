@@ -9,12 +9,15 @@ import UserForm from './UserForm'
 
 
 export default class OrganizationalRelationshipApp extends React.Component {
-  state = { users: [] }
+  state = { 
+    users: [],
+    selectedId: undefined
+  }
 
   componentDidMount() {
     axios.get('http://localhost:3000/api/v1/users')
     .then(res => {
-      console.log(res)
+      console.log(res.data)
       this.setState({ users: res.data })
     }).catch(err => console.log(err))
   }
@@ -31,20 +34,50 @@ export default class OrganizationalRelationshipApp extends React.Component {
           manager_id: user.manager_id
         }
       }
-    ).then(res => {
-      console.log(user)
-      
-      this.setState({ users: this.state.users.concat([ user ]) })
+    ).then(res => {      
+      const users = this.state.users.concat([ user ])
+      this.setState({ users })
     }).catch(err => console.log(err))
+  }
+
+  deleteUser = (id) => {
+    axios.delete(`http://localhost:3000/api/v1/users/${id}`)
+    .then(res => {
+      
+      const users = this.state.users.filter((user) => user.id !== id )
+
+      console.log(users)
+
+      this.setState({ users })
+    })
+    .catch(err => console.log(err))
+  }
+
+  selectUser = (selectedId, id) => {
+    console.log(selectedId)
+
+    axios.get(`http://localhost:3000/api/v1/users/?user_id=${selectedId}`)
+    .then(res => {
+      console.log(res.data)
+    })
+    .catch(err => console.log(err))
+
+    
+    this.setState({ selectedId })
   }
 
   render() {
     return (
       <div>
         Users
-        <UsersList users={this.state.users}/>
+        <UsersList users={this.state.users}
+          selectedUserId={this.state.selectedId} 
+          handleSelectUser={this.selectUser}
+          handleDeleteUser={this.deleteUser}/>
         Add User
         <UserForm handleAddUser={this.addNewUser}/>
+        { this.state.selectedId ? <p>This will selected</p> : <p>Please select note</p>}
+        
       </div>
     )
   }

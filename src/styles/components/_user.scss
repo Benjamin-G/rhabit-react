@@ -1,4 +1,8 @@
 .user {
   border: 2px solid black;
   margin: 1rem;
+
+  &--selected {
+    border: 2px solid orangered; 
+  }
 }
