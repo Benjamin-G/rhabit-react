@@ -31,7 +31,6 @@ export default class OrganizationalRelationshipApp extends React.Component {
       'http://localhost:3000/api/v1/users',
       {
         user: {
-          user_id: user.user_id,
           firstName: user.firstName,
           lastName: user.lastName,
           title:  user.title,
@@ -39,8 +38,7 @@ export default class OrganizationalRelationshipApp extends React.Component {
         }
       }
     ).then(res => {      
-      const users = this.state.users.concat([ user ])
-      this.setState({ users })
+      this.updateStateFromApi()
     }).catch(err => console.log(err))
   }
 
@@ -48,21 +46,14 @@ export default class OrganizationalRelationshipApp extends React.Component {
     axios.delete(`http://localhost:3000/api/v1/users/${id}`)
     .then(res => {
       this.updateStateFromApi()
+      this.setState({ selectedId: undefined })
     })
     .catch(err => console.log(err))
   }
 
   selectUser = (selectedId, id) => {
-    console.log(selectedId)
-
-    axios.get(`http://localhost:3000/api/v1/users/?user_id=${selectedId}`)
-    .then(res => {
-      console.log(res.data)
-    })
-    .catch(err => console.log(err))
-
-    
     this.setState({ selectedId })
+    console.log()
   }
 
   render() {
@@ -73,11 +64,14 @@ export default class OrganizationalRelationshipApp extends React.Component {
           selectedUserId={this.state.selectedId} 
           handleSelectUser={this.selectUser}
           handleDeleteUser={this.deleteUser}/>
-        Add User
-        <UserForm handleAddUser={this.addNewUser}/>
-        { this.state.selectedId ? <p>This will selected</p> : <p>Please select note</p>}
         
+        Add User
+        <UserForm key='add_user' handleAddUser={this.addNewUser} users={this.state.users}/> 
+
+        Edit User
+        <UserForm key='edit_user' user={this.state.users.find(user => user.id === this.state.selectedId)} users={this.state.users}/>  
       </div>
+
     )
   }
 }

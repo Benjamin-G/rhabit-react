@@ -2,19 +2,11 @@ import React from 'react'
 
 export default class UserForm extends React.Component {
   state = {
-    user_id: this.props.user ? this.props.user.user_id : '',
     firstName: this.props.user ? this.props.user.firstName : '',
     lastName: this.props.user ? this.props.user.lastName : '',
     title: this.props.user ? this.props.user.title : '',
     manager_id: this.props.user ? this.props.user.manager_id : '',
     error: ''
-  }
-
-  onUserIdChange = (e) => {
-    const user_id = e.target.value
-    if(!user_id || user_id.match(/^[+]?\d+$/)){
-      this.setState(() => ({ user_id }))
-    }
   }
 
   onFirstNameChange = (e) => {
@@ -32,25 +24,27 @@ export default class UserForm extends React.Component {
     this.setState(() => ({ title }))
   }
 
-  onManagerIdChange = (e) => {
+  onManagerChange = (e) => {
     const manager_id = e.target.value
-    if(!manager_id || manager_id.match(/^[+]?\d+$/)){
-      this.setState(() => ({ manager_id }))
-    }
+    this.setState(() => ({ manager_id }))
   }
 
   onSubmit = (e) => {
     e.preventDefault()
 
     //Handles Add User
-    if(!this.state.user_id || !this.state.firstName || !this.state.lastName || !this.state.title || !this.state.manager_id && !this.props.handleUpDateUser) {
-      this.setState(() => ({ error: "Please fill out all fields"}))
+    if(!this.state.firstName || !this.state.lastName || !this.state.title && !this.props.handleUpDateUser) {
+      this.setState({ error: "Please fill out all fields"})
     } else {
-      this.setState(() => ({ error: "" }))
+      this.setState({ 
+        firstName: '',
+        lastName: '',
+        title: '',
+        manager_id: '',
+        error: '' })
     
       this.props.handleAddUser(
         {
-          user_id: parseInt(this.state.user_id, 10),
           firstName: this.state.firstName ,
           lastName: this.state.lastName ,
           title: this.state.title ,
@@ -64,11 +58,7 @@ export default class UserForm extends React.Component {
     return (
       <form onSubmit={this.onSubmit}>
         {!!this.state.error ? <p className="form__error">{this.state.error}</p> : undefined}
-
-        <input placeholder="User ID"
-          type="string" 
-          value={this.state.user_id}
-          onChange={this.onUserIdChange}/>
+        {this.props.user ? <p>Please Edit : {this.props.user.firstName} {this.props.user.lastName}</p> : undefined}
 
         <input placeholder="First Name"
           type="string" 
@@ -84,15 +74,14 @@ export default class UserForm extends React.Component {
           type="string" 
           value={this.state.title}
           onChange={this.onTitleChange}/>
-
-        <input placeholder="Manager ID"
-          type="string" 
-          value={this.state.manager_id}
-          onChange={this.onManagerIdChange}/>
-
-          <div>
-            <button>{this.props.user ? 'Save Update' : 'Add User'}</button>
-          </div>
+        <select onChange={this.onManagerChange}>
+          {
+            this.props.users.map( user => <option key={user.id} value={user.id}>{`${user.firstName} ${user.lastName}`}</option> )
+          }
+        </select>
+        <div>
+          <button>{this.props.user ? 'Save Update' : 'Add User'}</button>
+        </div>
       </form>
     )
   }
